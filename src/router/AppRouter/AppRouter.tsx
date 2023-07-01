@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { HomePage } from '@/KioskApp/pages';
-import { LoginPage } from '@/auth/pages';
+import { LoginPage, RegisterPage } from '@/auth/pages';
 import { AuthLayout, KioskLayout } from '@/layouts';
 
 const appRouter = createBrowserRouter([
@@ -13,7 +13,10 @@ const appRouter = createBrowserRouter([
   {
     path: '/auth',
     element: <AuthLayout />,
-    children: [{ index: true, element: <LoginPage /> }],
+    children: [
+      { path: '/auth/login', element: <LoginPage /> },
+      { path: '/auth/register', element: <RegisterPage /> },
+    ],
   },
 ]);
 
