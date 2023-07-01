@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export type RegisterPageProps = {};
 
 const RegisterPage: React.FC<RegisterPageProps> = () => {
@@ -65,6 +67,15 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
           />
         </form>
       </div>
+
+      <nav className="mt-5">
+        <Link
+          to="/auth/login"
+          className="block text-center my-5 text-slate-500 text-sm"
+        >
+          Already have an account? <span>Log in</span>
+        </Link>
+      </nav>
     </>
   );
 };
