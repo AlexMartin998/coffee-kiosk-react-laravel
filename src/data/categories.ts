@@ -1,10 +1,6 @@
-interface Category {
-  icon: string;
-  name: string;
-  id: number;
-}
+import { ICategory } from '@/interfaces';
 
-export const categories: Category[] = [
+export const categories: ICategory[] = [
   {
     icon: 'cafe',
     name: 'Café',
