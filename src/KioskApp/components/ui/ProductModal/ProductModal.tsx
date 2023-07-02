@@ -1,11 +1,17 @@
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 
-import { useKiosk } from '@/context';
+import { ItemCounter } from '@/KioskApp/shared/components';
+import { useCart, useKiosk } from '@/context';
 import { useUI } from '@/context/hooks/useUI';
-import { IProduct } from '@/interfaces';
+import { ICartProduct, IProduct } from '@/interfaces';
 import { formattingMoney } from '@/shared/helpers';
 
 interface ProductModalProps {}
+
+interface PMState {
+  productInCart: ICartProduct;
+}
 
 const customStyles = {
   content: {
@@ -23,12 +29,41 @@ Modal.setAppElement('#root');
 const ProductModal: React.FC<ProductModalProps> = () => {
   const { isProductModalOpen, closeProductModal } = useUI();
   const { setActiveProduct, activeProduct } = useKiosk();
+  const { addProductToCart } = useCart();
+
+  const [tempCartProduct, setTempCartProduct] = useState<
+    PMState['productInCart']
+  >({} as ICartProduct);
+
+  useEffect(() => {
+    setTempCartProduct({
+      id: activeProduct.id,
+      image: activeProduct.image,
+      price: activeProduct.price,
+      quantity: 1,
+      title: activeProduct.name,
+      categoryId: activeProduct.category_id,
+    });
+  }, [activeProduct]);
 
   if (!isProductModalOpen) return <></>;
 
   const handleCloseModal = () => {
     closeProductModal();
     setActiveProduct({} as IProduct);
+  };
+
+  const handleUpdateQuantity = (updatedQuantity: number) => {
+    setTempCartProduct(currProd => ({
+      ...currProd,
+      quantity: updatedQuantity,
+    }));
+  };
+
+  const handleAddProductToOrder = () => {
+    if (!tempCartProduct.id) return;
+
+    addProductToCart({ ...tempCartProduct });
   };
 
   return (
@@ -66,9 +101,16 @@ const ProductModal: React.FC<ProductModalProps> = () => {
             {formattingMoney(activeProduct.price)}
           </p>
 
+          <ItemCounter
+            currentValue={tempCartProduct.quantity}
+            maxValue={5}
+            onUpdateQuantity={handleUpdateQuantity}
+          />
+
           <button
             type="button"
             className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 mt-5 text-white font-bold uppercase rounded-none"
+            onClick={handleAddProductToOrder}
           >
             Add
           </button>

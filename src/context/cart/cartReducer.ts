@@ -22,7 +22,7 @@ export const cartReducer = (
       return { ...state, cart: [...action.payload] };
 
     case CartActionType.updateProductsInCart:
-      return { ...state, cart: [...action.payload] };
+      return { ...state, cart: action.payload };
 
     default:
       return state;
