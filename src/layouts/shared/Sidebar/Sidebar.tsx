@@ -1,5 +1,5 @@
-import { Category } from '@/KioskApp/shared';
 import { categories } from '@/data/categories';
+import { Category } from './components';
 
 export type SidebarProps = {};
 
