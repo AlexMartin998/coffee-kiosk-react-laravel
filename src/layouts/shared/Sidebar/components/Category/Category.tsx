@@ -6,12 +6,14 @@ interface CategoryProps {
 }
 
 const Category: React.FC<CategoryProps> = ({ category }) => {
-  const { setActiveCategory } = useKiosk();
-  const { icon, name } = category;
+  const { activeCategory, setActiveCategory } = useKiosk();
+  const { icon, name, id } = category;
 
   return (
     <div
-      className="flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer"
+      className={`flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer ${
+        activeCategory.id === id && 'bg-amber-400'
+      }`}
       onClick={() => setActiveCategory(category)}
     >
       <img
