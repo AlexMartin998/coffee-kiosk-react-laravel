@@ -1,3 +1,4 @@
+import { useKiosk, useUI } from '@/context';
 import { IProduct } from '@/interfaces';
 import { formattingMoney } from '@/shared/helpers';
 
@@ -6,8 +7,15 @@ export type ProductProps = {
 };
 
 const Product: React.FC<ProductProps> = ({ product }) => {
+  const { setActiveProduct } = useKiosk();
+  const { openProductModal } = useUI();
   const { name, image, price } = product;
   const formattedPrice = formattingMoney(+price);
+
+  const onAddProductClick = () => {
+    setActiveProduct(product);
+    openProductModal();
+  };
 
   return (
     <div className="border p-3 shadow bg-white">
@@ -22,6 +30,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
         <button
           type="button"
           className="bg-indigo-600 hover:bg-indigo-800 text-white w-full mt-5 p-3 uppercase font-bold"
+          onClick={onAddProductClick}
         >
           Add
         </button>
