@@ -1,7 +1,8 @@
 import { useEffect, useReducer, useRef } from 'react';
 
 import { categories } from '@/data/categories';
-import { ICategory } from '@/interfaces';
+import { products } from '@/data/products';
+import { ICategory, IProduct } from '@/interfaces';
 import { KioskActionType, KioskContext, kioskReducer } from './';
 
 interface KioskProviderProps {
@@ -10,14 +11,20 @@ interface KioskProviderProps {
 
 export interface KioskState {
   categories: ICategory[];
-  isLoadingCategories: boolean;
   activeCategory: ICategory;
+  isLoadingCategories: boolean;
+  products: IProduct[];
+  activeProduct: IProduct;
+  isLoadingProducts: boolean;
 }
 
 const KIOSK_INIT_STATE: KioskState = {
   categories: [],
-  isLoadingCategories: true,
   activeCategory: {} as ICategory,
+  isLoadingCategories: true,
+  products: [],
+  activeProduct: {} as IProduct,
+  isLoadingProducts: true,
 };
 
 export const KioskProvider = ({ children }: KioskProviderProps) => {
@@ -32,6 +39,7 @@ export const KioskProvider = ({ children }: KioskProviderProps) => {
   useEffect(() => {
     if (!isMounted.current) return;
     dispatch({ type: KioskActionType.getCategories, payload: categories });
+    dispatch({ type: KioskActionType.getProducts, payload: products });
   }, []);
 
   const setActiveCategory = (category: ICategory) => {

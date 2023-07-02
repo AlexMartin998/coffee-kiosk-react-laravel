@@ -1,12 +1,17 @@
 import { createContext } from 'react';
 
-import { ICategory } from '@/interfaces';
+import { ICategory, IProduct } from '@/interfaces';
 
 interface KioskContextProps {
   categories: ICategory[];
   activeCategory: ICategory;
-  isMounted: React.MutableRefObject<boolean>;
   isLoadingCategories: boolean;
+
+  products: IProduct[];
+  activeProduct: IProduct;
+  isLoadingProducts: boolean;
+
+  isMounted: React.MutableRefObject<boolean>;
 
   setActiveCategory: (category: ICategory) => void;
 }
