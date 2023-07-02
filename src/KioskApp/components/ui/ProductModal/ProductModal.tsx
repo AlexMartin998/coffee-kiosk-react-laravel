@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { useKiosk } from '@/context';
 import { useUI } from '@/context/hooks/useUI';
 import { IProduct } from '@/interfaces';
+import { formattingMoney } from '@/shared/helpers';
 
 interface ProductModalProps {}
 
@@ -22,6 +23,8 @@ Modal.setAppElement('#root');
 const ProductModal: React.FC<ProductModalProps> = () => {
   const { isProductModalOpen, closeProductModal } = useUI();
   const { setActiveProduct, activeProduct } = useKiosk();
+
+  if (!isProductModalOpen) return <></>;
 
   const handleCloseModal = () => {
     closeProductModal();
@@ -57,6 +60,18 @@ const ProductModal: React.FC<ProductModalProps> = () => {
               </svg>
             </button>
           </div>
+
+          <h1 className="text-3xl font-bold mt-5">{activeProduct.name}</h1>
+          <p className="mt-5 font-black text-5xl text-amber-500">
+            {formattingMoney(activeProduct.price)}
+          </p>
+
+          <button
+            type="button"
+            className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 mt-5 text-white font-bold uppercase rounded-none"
+          >
+            Add
+          </button>
         </div>
       </div>
     </Modal>
