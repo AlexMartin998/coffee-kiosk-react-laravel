@@ -4,13 +4,13 @@ import { categories } from '@/data/categories';
 import { ICategory } from '@/interfaces';
 import { KioskActionType, KioskContext, kioskReducer } from './';
 
+interface KioskProviderProps {
+  children: React.ReactNode;
+}
+
 export interface KioskState {
   categories: ICategory[];
   isLoadingCategories: boolean;
-}
-
-interface KioskProviderProps {
-  children: React.ReactNode;
 }
 
 const KIOSK_INIT_STATE: KioskState = {

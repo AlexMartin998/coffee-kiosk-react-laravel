@@ -5,6 +5,7 @@ import { ICategory } from '@/interfaces';
 interface KioskContextProps {
   categories: ICategory[];
   isMounted: React.MutableRefObject<boolean>;
+  isLoadingCategories: boolean;
 }
 
 export const KioskContext = createContext({} as KioskContextProps);
