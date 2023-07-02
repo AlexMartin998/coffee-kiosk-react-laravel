@@ -16,6 +16,7 @@ interface KioskContextProps {
 
   setActiveCategory: (category: ICategory) => void;
   filterProductsByCategoryId: (categoryId: number) => void;
+  setActiveProduct: (product: IProduct) => void;
 }
 
 export const KioskContext = createContext({} as KioskContextProps);

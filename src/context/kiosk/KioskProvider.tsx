@@ -59,6 +59,11 @@ export const KioskProvider = ({ children }: KioskProviderProps) => {
     });
   };
 
+  // // Products
+  const setActiveProduct = (product: IProduct) => {
+    dispatch({ type: KioskActionType.setActiveProduct, payload: product });
+  };
+
   return (
     <KioskContext.Provider
       value={{
@@ -68,6 +73,7 @@ export const KioskProvider = ({ children }: KioskProviderProps) => {
         // fn()
         setActiveCategory,
         filterProductsByCategoryId,
+        setActiveProduct,
       }}
     >
       {children}

@@ -37,6 +37,8 @@ export const kioskReducer = (
       return { ...state, products: action.payload, isLoadingProducts: false };
     case KioskActionType.filterProductsByCategory:
       return { ...state, filteredProducts: action.payload };
+    case KioskActionType.setActiveProduct:
+      return { ...state, activeProduct: action.payload };
 
     default:
       return state;
