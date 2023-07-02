@@ -11,11 +11,13 @@ interface KioskProviderProps {
 export interface KioskState {
   categories: ICategory[];
   isLoadingCategories: boolean;
+  activeCategory: ICategory;
 }
 
 const KIOSK_INIT_STATE: KioskState = {
   categories: [],
   isLoadingCategories: true,
+  activeCategory: {} as ICategory,
 };
 
 export const KioskProvider = ({ children }: KioskProviderProps) => {
@@ -32,8 +34,20 @@ export const KioskProvider = ({ children }: KioskProviderProps) => {
     dispatch({ type: KioskActionType.getCategories, payload: categories });
   }, []);
 
+  const setActiveCategory = (category: ICategory) => {
+    dispatch({ type: KioskActionType.setActiveCategory, payload: category });
+  };
+
   return (
-    <KioskContext.Provider value={{ ...state, isMounted }}>
+    <KioskContext.Provider
+      value={{
+        ...state,
+        isMounted,
+
+        // fn()
+        setActiveCategory,
+      }}
+    >
       {children}
     </KioskContext.Provider>
   );
