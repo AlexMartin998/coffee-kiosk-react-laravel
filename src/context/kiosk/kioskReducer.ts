@@ -8,6 +8,7 @@ type KioskAction =
     }
   | { type: KioskActionType.setActiveCategory; payload: ICategory }
   | { type: KioskActionType.getProducts; payload: IProduct[] }
+  | { type: KioskActionType.filterProductsByCategory; payload: IProduct[] }
   | { type: KioskActionType.setActiveProduct; payload: IProduct };
 
 export enum KioskActionType {
@@ -15,6 +16,7 @@ export enum KioskActionType {
   setActiveCategory = '[Kiosk] - Set Active Category',
   getProducts = '[Kiosk] - Fetch Products',
   setActiveProduct = '[Kiosk] - Set Active Product',
+  filterProductsByCategory = '[Kiosk] - Filter Products by Category',
 }
 
 export const kioskReducer = (
@@ -28,12 +30,13 @@ export const kioskReducer = (
         categories: action.payload,
         isLoadingCategories: false,
       };
-
     case KioskActionType.setActiveCategory:
       return { ...state, activeCategory: action.payload };
 
     case KioskActionType.getProducts:
       return { ...state, products: action.payload, isLoadingProducts: false };
+    case KioskActionType.filterProductsByCategory:
+      return { ...state, filteredProducts: action.payload };
 
     default:
       return state;

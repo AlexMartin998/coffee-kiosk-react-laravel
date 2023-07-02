@@ -15,6 +15,7 @@ export interface KioskState {
   isLoadingCategories: boolean;
   products: IProduct[];
   activeProduct: IProduct;
+  filteredProducts: IProduct[];
   isLoadingProducts: boolean;
 }
 
@@ -24,6 +25,7 @@ const KIOSK_INIT_STATE: KioskState = {
   isLoadingCategories: true,
   products: [],
   activeProduct: {} as IProduct,
+  filteredProducts: [],
   isLoadingProducts: true,
 };
 
@@ -46,6 +48,17 @@ export const KioskProvider = ({ children }: KioskProviderProps) => {
     dispatch({ type: KioskActionType.setActiveCategory, payload: category });
   };
 
+  const filterProductsByCategoryId = (categoryId: number) => {
+    const filteredProducts = products.length
+      ? products.filter(product => product.category_id === categoryId)
+      : [];
+
+    dispatch({
+      type: KioskActionType.filterProductsByCategory,
+      payload: filteredProducts,
+    });
+  };
+
   return (
     <KioskContext.Provider
       value={{
@@ -54,6 +67,7 @@ export const KioskProvider = ({ children }: KioskProviderProps) => {
 
         // fn()
         setActiveCategory,
+        filterProductsByCategoryId,
       }}
     >
       {children}

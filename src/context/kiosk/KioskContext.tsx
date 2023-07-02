@@ -9,11 +9,13 @@ interface KioskContextProps {
 
   products: IProduct[];
   activeProduct: IProduct;
+  filteredProducts: IProduct[];
   isLoadingProducts: boolean;
 
   isMounted: React.MutableRefObject<boolean>;
 
   setActiveCategory: (category: ICategory) => void;
+  filterProductsByCategoryId: (categoryId: number) => void;
 }
 
 export const KioskContext = createContext({} as KioskContextProps);
