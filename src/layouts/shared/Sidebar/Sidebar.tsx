@@ -1,9 +1,11 @@
-import { categories } from '@/data/categories';
+import { useKiosk } from '@/context';
 import { Category } from './components';
 
 export type SidebarProps = {};
 
 const Sidebar: React.FC<SidebarProps> = () => {
+  const { categories } = useKiosk();
+
   return (
     <aside className="md:w-72">
       <div className="p-4">
