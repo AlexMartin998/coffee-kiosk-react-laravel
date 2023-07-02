@@ -64,6 +64,7 @@ const ProductModal: React.FC<ProductModalProps> = () => {
     if (!tempCartProduct.id) return;
 
     addProductToCart({ ...tempCartProduct });
+    closeProductModal();
   };
 
   return (
