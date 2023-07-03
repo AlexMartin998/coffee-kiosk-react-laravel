@@ -6,11 +6,16 @@ type cartAction =
       type: CartActionType.loadCartFromLocalStorage;
       payload: ICartProduct[];
     }
-  | { type: CartActionType.updateProductsInCart; payload: ICartProduct[] };
+  | { type: CartActionType.updateProductsInCart; payload: ICartProduct[] }
+  | { type: CartActionType.updateCartQuantity; payload: ICartProduct }
+  | { type: CartActionType.setActiveProductInCart; payload: ICartProduct };
 
 export enum CartActionType {
   loadCartFromLocalStorage = '[Cart] - Load Cart from Local Storage',
   updateProductsInCart = '[Cart] - Update products in cart',
+  updateCartQuantity = '[Cart] - Update product quantity in cart',
+
+  setActiveProductInCart = '[Cart] - Set active product in cart',
 }
 
 export const cartReducer = (
@@ -23,6 +28,19 @@ export const cartReducer = (
 
     case CartActionType.updateProductsInCart:
       return { ...state, cart: action.payload };
+
+    case CartActionType.setActiveProductInCart:
+      return { ...state, activeProductInCart: action.payload };
+
+    case CartActionType.updateCartQuantity:
+      return {
+        ...state,
+
+        // // true -> return updated product
+        cart: state.cart.map(product =>
+          product.id === action.payload.id ? action.payload : product
+        ),
+      };
 
     default:
       return state;

@@ -5,6 +5,7 @@ import { CartActionType, CartContext, cartReducer } from './';
 
 export interface CartState {
   cart: ICartProduct[];
+  activeProductInCart: ICartProduct;
 }
 
 interface CartProviderProps {
@@ -13,6 +14,7 @@ interface CartProviderProps {
 
 const CART_INIT_STATE: CartState = {
   cart: [],
+  activeProductInCart: {} as ICartProduct,
 };
 
 export const CartProvider = ({ children }: CartProviderProps) => {
@@ -33,8 +35,23 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     });
   };
 
+  const setActiveProductInCart = (product: ICartProduct) => {
+    dispatch({ type: CartActionType.setActiveProductInCart, payload: product });
+  };
+
+  const updateCartQuantity = (product: ICartProduct) => {
+    dispatch({ type: CartActionType.updateCartQuantity, payload: product });
+  };
+
   return (
-    <CartContext.Provider value={{ ...state, addProductToCart }}>
+    <CartContext.Provider
+      value={{
+        ...state,
+        addProductToCart,
+        setActiveProductInCart,
+        updateCartQuantity,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

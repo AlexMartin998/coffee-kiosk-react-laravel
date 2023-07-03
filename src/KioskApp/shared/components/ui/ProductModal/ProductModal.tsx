@@ -29,18 +29,28 @@ Modal.setAppElement('#root');
 const ProductModal: React.FC<ProductModalProps> = () => {
   const { isProductModalOpen, closeProductModal } = useUI();
   const { setActiveProduct, activeProduct } = useKiosk();
-  const { addProductToCart } = useCart();
+  const {
+    activeProductInCart,
+    addProductToCart,
+    setActiveProductInCart,
+    updateCartQuantity,
+  } = useCart();
 
   const [tempCartProduct, setTempCartProduct] = useState<
     PMState['productInCart']
   >({} as ICartProduct);
+
+  const getQuantity = () =>
+    activeProductInCart.id && activeProduct.id === activeProductInCart.id
+      ? activeProductInCart.quantity
+      : 1;
 
   useEffect(() => {
     setTempCartProduct({
       id: activeProduct.id,
       image: activeProduct.image,
       price: activeProduct.price,
-      quantity: 1,
+      quantity: getQuantity(),
       title: activeProduct.name,
       categoryId: activeProduct.category_id,
     });
@@ -51,6 +61,7 @@ const ProductModal: React.FC<ProductModalProps> = () => {
   const handleCloseModal = () => {
     closeProductModal();
     setActiveProduct({} as IProduct);
+    setActiveProductInCart({} as ICartProduct);
   };
 
   const handleUpdateQuantity = (updatedQuantity: number) => {
@@ -62,10 +73,17 @@ const ProductModal: React.FC<ProductModalProps> = () => {
 
   const handleAddProductToOrder = () => {
     if (!tempCartProduct.id) return;
+    // if (activeProduct.id === activeProductInCart.id) {
+    //   updateCartQuantity(activeProductInCart);
+    //   setActiveProduct({} as IProduct);
+    //   setActiveProductInCart({} as ICartProduct);
+    //   return closeProductModal();
+    // }
 
     addProductToCart({ ...tempCartProduct });
     closeProductModal();
-    setActiveProduct({} as IProduct);
+    // setActiveProduct({} as IProduct);
+    // setActiveProductInCart({} as ICartProduct);
   };
 
   return (
@@ -114,7 +132,7 @@ const ProductModal: React.FC<ProductModalProps> = () => {
             className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 mt-5 text-white font-bold uppercase rounded-none"
             onClick={handleAddProductToOrder}
           >
-            Add
+            {activeProduct.id === activeProductInCart.id ? 'Update' : 'Add'}
           </button>
         </div>
       </div>
