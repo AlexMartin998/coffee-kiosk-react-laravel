@@ -65,6 +65,7 @@ const ProductModal: React.FC<ProductModalProps> = () => {
 
     addProductToCart({ ...tempCartProduct });
     closeProductModal();
+    setActiveProduct({} as IProduct);
   };
 
   return (

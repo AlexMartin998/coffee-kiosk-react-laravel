@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import { ProductModal } from '@/KioskApp/components';
+import { ProductModal } from '@/KioskApp/shared/components';
 import { Sidebar, Summary } from '../shared';
 
 export interface KioskLayoutProps {}

@@ -1,4 +1,5 @@
 import { useCart } from '@/context';
+import { CartList } from './components';
 
 export type SummaryProps = {};
 
@@ -14,7 +15,7 @@ const Summary: React.FC<SummaryProps> = () => {
 
       <div className="py-10">
         {cart.length ? (
-          <p>Si hay pedidos</p>
+          <CartList cart={cart} />
         ) : (
           <p className="text-center text-2xl">
             You have not yet added products to your cart
