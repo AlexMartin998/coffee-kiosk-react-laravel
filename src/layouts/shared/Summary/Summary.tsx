@@ -1,6 +1,5 @@
 import { useCart } from '@/context';
-import { CartList } from './components';
-import { formattingMoney } from '@/shared/helpers';
+import { CartList, TotalOrderSummary } from './components';
 
 export type SummaryProps = {};
 
@@ -24,16 +23,9 @@ const Summary: React.FC<SummaryProps> = () => {
         )}
       </div>
 
-      <p className="text-xl mt-10">
-        Total: {formattingMoney(orderSummary.total)}
-      </p>
-
-      <button
-        type="button"
-        className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 rounded uppercase font-bold text-white text-center w-full cursor-pointer mt-6"
-      >
-        Confirm Order
-      </button>
+      {!!orderSummary.total && (
+        <TotalOrderSummary totalAmount={orderSummary.total} />
+      )}
     </aside>
   );
 };
