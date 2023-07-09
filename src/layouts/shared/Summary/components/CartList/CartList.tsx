@@ -1,15 +1,15 @@
 import { ICartProduct } from '@/interfaces';
 import { formattingMoney } from '@/shared/helpers';
 
-export type CartListProps = {
+interface CartListProps {
   cart: ICartProduct[];
-};
+}
 
 const CartList: React.FC<CartListProps> = ({ cart }) => {
   return (
     <>
-      {cart.map(({ title, quantity, price }) => (
-        <div className="shadow space-y-1 p-4 bg-white">
+      {cart.map(({ title, quantity, price, id }) => (
+        <div className="shadow space-y-1 p-4 bg-white" key={id}>
           <div className="space-y-2">
             <p className="text-xl font-bold">{title}</p>
             <p className="text-lg font-bold ">Queantity: {quantity}</p>
