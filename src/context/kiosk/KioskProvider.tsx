@@ -1,9 +1,14 @@
 import { useEffect, useReducer, useRef } from 'react';
 
-import { products } from '@/data/products';
-import { ICategory, ICategoryResponse, IProduct } from '@/interfaces';
-import { KioskActionType, KioskContext, kioskReducer } from './';
 import { kioskApi } from '@/api';
+import {
+  ICategory,
+  ICategoryResponse,
+  IProduct,
+  IProductResponse,
+} from '@/interfaces';
+import useSWR from 'swr';
+import { KioskActionType, KioskContext, kioskReducer } from './';
 
 interface KioskProviderProps {
   children: React.ReactNode;
@@ -33,6 +38,12 @@ export const KioskProvider = ({ children }: KioskProviderProps) => {
   const [state, dispatch] = useReducer(kioskReducer, KIOSK_INIT_STATE);
   const isMounted = useRef(false);
 
+  const productsFetcher = (url: string) =>
+    kioskApi<IProductResponse>(url).then(data => data.data.data);
+  const { data: products } = useSWR('/products', productsFetcher, {
+    refreshInterval: 1000 * 15,
+  });
+
   useEffect(() => {
     isMounted.current = true;
   }, []);
@@ -42,8 +53,10 @@ export const KioskProvider = ({ children }: KioskProviderProps) => {
     if (!isMounted.current) return;
 
     getCategories();
+
+    if (!products?.length) return;
     dispatch({ type: KioskActionType.getProducts, payload: products });
-  }, []);
+  }, [products]);
 
   const getCategories = async () => {
     try {
@@ -61,9 +74,10 @@ export const KioskProvider = ({ children }: KioskProviderProps) => {
   };
 
   const filterProductsByCategoryId = (categoryId: number) => {
-    const filteredProducts = products.length
-      ? products.filter(product => product.category_id === categoryId)
-      : [];
+    const filteredProducts =
+      products && products.length
+        ? products.filter(product => product.category_id === categoryId)
+        : [];
 
     dispatch({
       type: KioskActionType.filterProductsByCategory,
