@@ -21,7 +21,7 @@ const CartList: React.FC<CartListProps> = ({ cart }) => {
   return (
     <>
       {cart.map(product => (
-        <div className="shadow space-y-1 p-4 bg-white">
+        <div className="shadow space-y-1 p-4 bg-white" key={product.id}>
           <div className="space-y-2">
             <p className="text-xl font-bold">{product.title}</p>
             <p className="text-lg font-bold ">Queantity: {product.quantity}</p>
