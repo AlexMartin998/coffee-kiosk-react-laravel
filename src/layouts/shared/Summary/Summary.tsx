@@ -1,10 +1,11 @@
 import { useCart } from '@/context';
 import { CartList } from './components';
+import { formattingMoney } from '@/shared/helpers';
 
 export type SummaryProps = {};
 
 const Summary: React.FC<SummaryProps> = () => {
-  const { cart } = useCart();
+  const { cart, orderSummary } = useCart();
 
   return (
     <aside className="w-72 h-screen overflow-y-scroll p-5">
@@ -23,7 +24,9 @@ const Summary: React.FC<SummaryProps> = () => {
         )}
       </div>
 
-      <p className="text-xl mt-10">Total: {''}</p>
+      <p className="text-xl mt-10">
+        Total: {formattingMoney(orderSummary.total)}
+      </p>
 
       <button
         type="button"

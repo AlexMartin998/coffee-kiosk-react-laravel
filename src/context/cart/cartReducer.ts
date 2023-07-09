@@ -1,4 +1,4 @@
-import { ICartProduct } from '@/interfaces';
+import { ICartProduct, IOrderSummary } from '@/interfaces';
 import { CartState } from './';
 
 type cartAction =
@@ -9,6 +9,7 @@ type cartAction =
   | { type: CartActionType.updateProductsInCart; payload: ICartProduct[] }
   | { type: CartActionType.updateCartQuantity; payload: ICartProduct }
   | { type: CartActionType.removeProductoFromCart; payload: ICartProduct }
+  | { type: CartActionType.updateOrderSummary; payload: IOrderSummary }
   | { type: CartActionType.setActiveProductInCart; payload: ICartProduct };
 
 export enum CartActionType {
@@ -16,6 +17,8 @@ export enum CartActionType {
   updateProductsInCart = '[Cart] - Update products in cart',
   updateCartQuantity = '[Cart] - Update product quantity in cart',
   removeProductoFromCart = '[Cart] - Remove product from cart',
+
+  updateOrderSummary = '[Cart] - Update order summary',
 
   setActiveProductInCart = '[Cart] - Set active product in cart',
 }
@@ -49,6 +52,9 @@ export const cartReducer = (
         ...state,
         cart: state.cart.filter(p => !(p.id === action.payload.id)),
       };
+
+    case CartActionType.updateOrderSummary:
+      return { ...state, orderSummary: { ...action.payload } };
 
     default:
       return state;
