@@ -8,7 +8,7 @@ export type CartListProps = {
 
 const CartList: React.FC<CartListProps> = ({ cart }) => {
   const { openProductModal } = useUI();
-  const { setActiveProductInCart } = useCart();
+  const { setActiveProductInCart, removeProductFromCart } = useCart();
   const { setActiveProduct } = useKiosk();
 
   const handleEditProduct = (product: ICartProduct) => {
@@ -16,6 +16,10 @@ const CartList: React.FC<CartListProps> = ({ cart }) => {
 
     setActiveProductInCart(product);
     setActiveProduct(product as unknown as IProduct);
+  };
+
+  const handleDeleteProduct = (product: ICartProduct) => {
+    removeProductFromCart(product);
   };
 
   return (
@@ -51,6 +55,7 @@ const CartList: React.FC<CartListProps> = ({ cart }) => {
             <button
               type="button"
               className="bg-red-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
+              onClick={() => handleDeleteProduct(product)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

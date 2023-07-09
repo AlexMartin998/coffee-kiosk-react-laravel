@@ -8,6 +8,7 @@ interface CartContextProps {
 
   addProductToCart: (product: ICartProduct) => void;
   updateCartQuantity: (product: ICartProduct) => void;
+  removeProductFromCart: (product: ICartProduct) => void;
 
   setActiveProductInCart: (product: ICartProduct) => void;
 }
