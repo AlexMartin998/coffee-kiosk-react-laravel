@@ -1,9 +1,9 @@
 import { useEffect, useReducer, useRef } from 'react';
 
-import { categories } from '@/data/categories';
 import { products } from '@/data/products';
-import { ICategory, IProduct } from '@/interfaces';
+import { ICategory, ICategoryResponse, IProduct } from '@/interfaces';
 import { KioskActionType, KioskContext, kioskReducer } from './';
+import { kioskApi } from '@/api';
 
 interface KioskProviderProps {
   children: React.ReactNode;
@@ -40,9 +40,21 @@ export const KioskProvider = ({ children }: KioskProviderProps) => {
   // fetch data
   useEffect(() => {
     if (!isMounted.current) return;
-    dispatch({ type: KioskActionType.getCategories, payload: categories });
+
+    getCategories();
     dispatch({ type: KioskActionType.getProducts, payload: products });
   }, []);
+
+  const getCategories = async () => {
+    try {
+      const { data } = await kioskApi.get<ICategoryResponse>('/categories');
+      const categories: ICategory[] = data.data;
+
+      dispatch({ type: KioskActionType.getCategories, payload: categories });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const setActiveCategory = (category: ICategory) => {
     dispatch({ type: KioskActionType.setActiveCategory, payload: category });

@@ -1,5 +1,9 @@
+export interface ICategoryResponse {
+  data: ICategory[];
+}
+
 export interface ICategory {
-  icon: string;
-  name: string;
   id: number;
+  name: string;
+  icon: string;
 }
