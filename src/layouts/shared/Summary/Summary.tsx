@@ -1,10 +1,10 @@
 import { useCart } from '@/context';
-import { CartList } from './components';
+import { CartList, TotalOrderSummary } from './components';
 
 export type SummaryProps = {};
 
 const Summary: React.FC<SummaryProps> = () => {
-  const { cart } = useCart();
+  const { cart, orderSummary } = useCart();
 
   return (
     <aside className="w-72 h-screen overflow-y-scroll p-5">
@@ -23,14 +23,9 @@ const Summary: React.FC<SummaryProps> = () => {
         )}
       </div>
 
-      <p className="text-xl mt-10">Total: {''}</p>
-
-      <button
-        type="button"
-        className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 rounded uppercase font-bold text-white text-center w-full cursor-pointer mt-6"
-      >
-        Confirm Order
-      </button>
+      {!!orderSummary.total && (
+        <TotalOrderSummary totalAmount={orderSummary.total} />
+      )}
     </aside>
   );
 };

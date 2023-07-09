@@ -1,4 +1,6 @@
 import { Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { ProductModal } from '@/KioskApp/shared/components';
 import { Sidebar, Summary } from '../shared';
@@ -17,6 +19,7 @@ const KioskLayout: React.FC<KioskLayoutProps> = () => {
       <Summary />
 
       <ProductModal />
+      <ToastContainer />
     </div>
   );
 };

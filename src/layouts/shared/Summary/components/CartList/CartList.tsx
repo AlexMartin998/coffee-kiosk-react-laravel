@@ -1,4 +1,5 @@
-import { ICartProduct } from '@/interfaces';
+import { useCart, useKiosk, useUI } from '@/context';
+import { ICartProduct, IProduct } from '@/interfaces';
 import { formattingMoney } from '@/shared/helpers';
 
 interface CartListProps {
@@ -6,18 +7,33 @@ interface CartListProps {
 }
 
 const CartList: React.FC<CartListProps> = ({ cart }) => {
+  const { openProductModal } = useUI();
+  const { setActiveProductInCart, removeProductFromCart } = useCart();
+  const { setActiveProduct } = useKiosk();
+
+  const handleEditProduct = (product: ICartProduct) => {
+    openProductModal();
+
+    setActiveProductInCart(product);
+    setActiveProduct(product as unknown as IProduct);
+  };
+
+  const handleDeleteProduct = (product: ICartProduct) => {
+    removeProductFromCart(product);
+  };
+
   return (
     <>
-      {cart.map(({ title, quantity, price, id }) => (
-        <div className="shadow space-y-1 p-4 bg-white" key={id}>
+      {cart.map(product => (
+        <div className="shadow space-y-1 p-4 bg-white" key={product.id}>
           <div className="space-y-2">
-            <p className="text-xl font-bold">{title}</p>
-            <p className="text-lg font-bold ">Queantity: {quantity}</p>
+            <p className="text-xl font-bold">{product.title}</p>
+            <p className="text-lg font-bold ">Queantity: {product.quantity}</p>
             <p className="text-lg font-bold text-amber-500">
-              Price: {formattingMoney(price)}
+              Price: {formattingMoney(product.price)}
             </p>
             <p className="text-lg text-gray-700">
-              Subtotal: {formattingMoney(quantity * price)}
+              Subtotal: {formattingMoney(product.quantity * product.price)}
             </p>
           </div>
 
@@ -25,6 +41,7 @@ const CartList: React.FC<CartListProps> = ({ cart }) => {
             <button
               type="button"
               className="bg-sky-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
+              onClick={() => handleEditProduct(product)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -38,6 +55,7 @@ const CartList: React.FC<CartListProps> = ({ cart }) => {
             <button
               type="button"
               className="bg-red-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
+              onClick={() => handleDeleteProduct(product)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
