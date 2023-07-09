@@ -26,6 +26,8 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
+// TODO: Updata Cart Quantity
+
 const ProductModal: React.FC<ProductModalProps> = () => {
   const { isProductModalOpen, closeProductModal } = useUI();
   const { setActiveProduct, activeProduct } = useKiosk();

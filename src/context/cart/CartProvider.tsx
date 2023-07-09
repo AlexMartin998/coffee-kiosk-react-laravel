@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import { toast } from 'react-toastify';
 
 import { ICartProduct } from '@/interfaces';
 import { CartActionType, CartContext, cartReducer } from './';
@@ -33,6 +34,8 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       type: CartActionType.updateProductsInCart,
       payload: [...updatedProductCart],
     });
+
+    toast.success('Product Added');
   };
 
   const setActiveProductInCart = (product: ICartProduct) => {
