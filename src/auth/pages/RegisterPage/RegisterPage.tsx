@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
-import { registerFormSchema } from '@/shared/utils';
+import { useAuth } from '@/context';
 import { FormErrorText } from '@/shared/components';
+import { registerFormSchema } from '@/shared/utils';
 
 export type RegisterPageProps = {};
 
@@ -14,6 +15,7 @@ type FormData = {
   password_confirmation: string;
 };
 const RegisterPage: React.FC<RegisterPageProps> = () => {
+  const { registerUser } = useAuth();
   const {
     register,
     handleSubmit,
@@ -26,8 +28,12 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
     password,
     password_confirmation,
   }: FormData) => {
-    // const { hasError, message } = await registerUser(name,email,password,password_confirmation);
-    console.log({ name, email, password, password_confirmation });
+    await registerUser({
+      name,
+      email,
+      password,
+      password_confirmation,
+    });
   };
 
   return (

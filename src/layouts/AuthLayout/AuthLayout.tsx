@@ -1,4 +1,6 @@
 import { Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export interface AuthLayoutProps {}
 
@@ -10,6 +12,8 @@ const AuthLayout: React.FC<AuthLayoutProps> = () => {
       <div className="p-10 w-full">
         <Outlet />
       </div>
+
+      <ToastContainer />
     </main>
   );
 };
